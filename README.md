@@ -18,7 +18,7 @@ AI分野では毎日のように新しい研究成果が発表されます。し
 ---
 
 アーキテクチャ  
-![Slide](https://raw.githubusercontent.com/shogokajiwara/ai_paper_rag/main/architecture1.png)
+![Slide](https://github.com/shogokajiwara/ai_paper_rag/blob/main/architecture1.png?raw=true)
 
 
 Docker   
