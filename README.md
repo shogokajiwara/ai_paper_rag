@@ -29,9 +29,9 @@ Docker Service
 └── scheduler                              # 定時にknowledgebaseに実行命令を出す。
 ```
 
-詳細なDocker Service同士のarchitecture
-Slide
+詳細なDocker Service同士のarchitecture  
 
+![Docker architecture](architecture1.png)
 RAGは
 
 1. LLMでqueryの言語を検出し、英語でなければ英語に直す。
@@ -42,7 +42,7 @@ RAGは
 
 以下がRAGのarchitecture
 
-Slide
+![RAG architecture](architecture2.png)
 
 ## ディレクトリ構造
 
@@ -52,17 +52,23 @@ ai-paper-rag/
 ├── LISENCE　　　　　　　　　                        # MIT License
 ├── .gitignore                                    # Git によるバージョン管理から除外したいファイルやディレクトリ一覧
 ├── run_dockers.sh                                # docker-compose.yml に定義されたサービスを、Dockerfile からイメージをビルドして起動するシェルスクリプト
+├── show_log.sh                                   # docker composeのログをリアルタイム表示
 ├── docker-compose.yml                            # knowledgebase ・ rag ・ scheduler ・ ui サービスを定義するファイル
+├── show_log.sh                                   # docker composeのログをリアルタイム表示
+├── architecture.pptx                             # アーキテクチャの.pptx図 
+├── architecture1.png                             # アーキテクチャの.png図1
+├── architecture2.png                             # アーキテクチャの.png図2
+├── config/                                       # Python の logging 設定ディレクトリ 
+    ├── logging.yml                               # Python の logging 設定ファイル
 ├── src/
     ├── knowledgebase/                    
     │   ├── Dockerfile                            # main.py を実行するための knowledgebase イメージを作る Dockerfile
     │   ├── requirements.txt                      # knowledgebase イメージにインストールする Python パッケージの依存関係
     │   ├── main.py                               # scheduler サービスからの HTTP リクエストを受け取ったら、update_knowledgebase.py を実行するファイル
-    │   ├── update_knowledgebase.py               # create_current_and_previous_json.py を実行して戻り値が0ならば create_addition_and_deletion_json.py と update_chroma.py を実行するファイル
+    │   ├── update_knowledgebase.py               # 
     │   ├── create_current_and_previous_json.py   # create_current_temp_json.pyを実行し、create_previous_temp_json.py
     │   ├── acquire_all_categories.py             # 全カテゴリの論文を取得
     │   ├── acquire_latest_arxiv_data.py          # 最新のarXivデータを取得
-    │   ├── config.py                             # 設定ファイル
     │   ├── create_addition_and_deletion_json.py  # 追加・削除論文のJSONを作成
     │   ├── create_current_and_previous_json.py   # 最新と以前の論文JSONを作成
     │   ├── create_current_temp_json.py           # 最新の論文一時JSONを作成
@@ -191,15 +197,6 @@ docker-compose logs -f
 3. 「Search」ボタンを押すと、最新論文に基づく回答が生成され、使用された論文の一覧も確認できます。
 
 ---
-
-## 🧩 システム構成
-
-このプロジェクトは、以下の主要なサービスで構成されています。
-
-- knowledgebase: arXivから最新の論文データを取得し、ChromaDBを更新します。
-- rag: ユーザーからの質問に対し、ChromaDBから関連論文を検索し、Gemini APIを用いて回答を生成します。
-- scheduler: knowledgebaseサービスの更新を定期的にトリガーします。
-- ui: Reactで構築されたユーザーインターフェースを提供します。
 
 ---
 

@@ -15,13 +15,15 @@ def fetch_arxiv_papers(category: str, cache_dir: str) -> str:
     set_spec = f"{head}:{head}:{tail}"
 
     path = os.path.join(cache_dir, f"{category}.json")
+    scheduled_day = (datetime.now(timezone.utc) - relativedelta(years=1)).strftime("%Y-%m-%d")
     try:
         with open(path, "r", encoding="utf-8") as f:
             papers = json.load(f)
         latest_date = max(paper["updated"] for paper in papers)
-        start_day = latest_date
+        start_day = max(latest_date, scheduled_day)
     except:
-        start_day = (datetime.now(timezone.utc) - relativedelta(years=1)).strftime("%Y-%m-%d")
+        start_day = scheduled_day
+        
         papers = []
    
     params = {
