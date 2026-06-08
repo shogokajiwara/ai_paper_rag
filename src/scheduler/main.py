@@ -22,7 +22,7 @@ def cron(s: str) -> dict[str, str]:
         day_of_week=dow
     )
 
-scheduler.add_job(run_task, 'cron', **cron("43 12 * * *"))
+scheduler.add_job(run_task, 'cron', **cron("0 0 * * *"))
 
 if __name__ == "__main__":
     scheduler.start()
