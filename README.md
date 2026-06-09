@@ -149,6 +149,15 @@ ai-paper-rag/
 - arXiv API（論文メタデータ）
 
 ## セットアップ方法
+
+Windowsの場合
+### 1. リポジトリのクローン
+
+```powershell
+git clone https://github.com/shogokajiwara/ai_paper_rag.git
+cd ai_paper_rag
+```
+
 Linuxの場合
 ### 1. リポジトリのクローン
 
