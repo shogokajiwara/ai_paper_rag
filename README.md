@@ -151,14 +151,47 @@ ai-paper-rag/
 ## セットアップ方法
 
 Windowsの場合
+Windows PowerShellを開き、作業ディレクトリで以下のコマンドを実行
 ### 1. リポジトリのクローン
-
 ```powershell
 git clone https://github.com/shogokajiwara/ai_paper_rag.git
 cd ai_paper_rag
 ```
 
+### 2. RAGデータベースのダウンロード
+```powershell
+curl -O https://pub-47d4e6cc65ee492f8a054d787287b0bc.r2.dev/cache.zip
+tar -xf cache.zip
+```
+
+### 3. Docker Desktopのインストール・起動
+以下から Windows 版 Docker Desktop をダウンロード
+https://www.docker.com/products/docker-desktop/
+インストール後、スタートメニューから Docker Desktop を起動
+GUI の指示に従ってセットアップ（WSL2 backend を有効化）
+
+### 4. APIキーの準備
+以下からHugging FaceのAccess TokenとGoogle AI StudioのAPI keyを入手して、環境変数に設定。
+```powershell
+setx HF_TOKEN "Your Hugging Face Access Token"
+setx GEMINI_API_KEY "Your Google AI Studio API key"
+```
+
+### 5. Docker Compose の起動
+
+```powershell
+docker compose up -d --build
+```
+
+### 6. ログの表示
+
+```powershell
+docker-compose logs -f
+```
+
+
 Linuxの場合
+Terminalを開き、
 ### 1. リポジトリのクローン
 
 ```bash
@@ -181,7 +214,6 @@ sudo apt install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 ```
 
 ### 4. APIキーの準備
-
 以下からHugging FaceのAccess TokenとGoogle AI StudioのAPI keyを入手して、.bashrcに設定。
 [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)
 [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
