@@ -275,7 +275,7 @@ docker compose up -d --build
 ### 6. ログの表示
 
 ```bash
-docker-compose logs -f
+docker compose logs -f
 ```
 
 ---
