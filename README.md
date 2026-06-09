@@ -179,6 +179,8 @@ cd ai_paper_rag
 
 ```bash
 curl -O https://pub-47d4e6cc65ee492f8a054d787287b0bc.r2.dev/cache.zip
+sudo apt update
+sudo apt install unzip
 unzip cache.zip
 ```
 cache.zip は1.74GBあるので、ダウンロードに時間がかかる。
