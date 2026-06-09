@@ -151,7 +151,7 @@ ai-paper-rag/
 ## セットアップ方法
 
 Windowsの場合  
-Windows PowerShellを開き、作業ディレクトリで以下のコマンドを実行
+PowerShellを開き、作業ディレクトリで以下のコマンドを実行
 
 ### 1. リポジトリのクローン
 
@@ -195,7 +195,7 @@ docker compose up -d --build
 docker-compose logs -f
 ```
 
-Linuxの場合
+Linuxの場合  
 Terminalを開き、
 
 ### 1. リポジトリのクローン
