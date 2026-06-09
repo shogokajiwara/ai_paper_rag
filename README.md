@@ -150,7 +150,7 @@ ai-paper-rag/
 
 ## セットアップ方法
 
-Windowsの場合
+Windowsの場合  
 Windows PowerShellを開き、作業ディレクトリで以下のコマンドを実行
 ### 1. リポジトリのクローン
 ```powershell
