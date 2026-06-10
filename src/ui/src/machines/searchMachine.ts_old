@@ -1,4 +1,4 @@
-import { setup, assign, fromPromise, fromCallback, spawn } from "xstate";
+import { setup, assign, fromPromise, fromCallback } from "xstate";
 
 const API_URL = "http://localhost:8000";
 
@@ -10,7 +10,7 @@ export const searchMachine = setup({
       data: any;
       jobId: string | null;
       abortController: AbortController | null;
-      wsActor: any | null; // 永続アクター
+      ws: WebSocket | null;
     },
     events: {} as
       | { type: "SEARCH"; query: string }
@@ -20,55 +20,31 @@ export const searchMachine = setup({
   },
 
   actors: {
-    // 永続 WebSocket アクター
-    connectWS: fromCallback(({ sendBack }) => {
+    connectWS: fromCallback(({ self, sendBack }) => {
       let ws: WebSocket | null = null;
-      let reconnectTimer: any = null;
-      const RECONNECT_DELAY = 1000;
-
+    
       function connect() {
         ws = new WebSocket("ws://localhost:8000/ws");
-
-        ws.onopen = () => {
-          console.log("WS connected");
-        };
-
+    
         ws.onmessage = (event) => {
           const msg = JSON.parse(event.data);
+    
+          // 結果メッセージだけ machine に送る
           if (msg.type === "result") {
-            sendBack({ type: "WS_RESULT", data: msg });
+            sendBack({
+              type: "WS_RESULT",
+              data: msg
+            });
           }
         };
-
-        // ① onclose/onerror（再接続のトリガー）
-        ws.onclose = () => {
-          console.log("WS closed, reconnecting...");
-          scheduleReconnect();
-        };
-
-        ws.onerror = () => {
-          console.log("WS error, closing...");
-          ws?.close();
-        };
       }
-
-      // ④ 自動再接続
-      function scheduleReconnect() {
-        if (reconnectTimer) return;
-        reconnectTimer = setTimeout(() => {
-          reconnectTimer = null;
-          connect();
-        }, RECONNECT_DELAY);
-      }
-
+    
       connect();
-
+    
       return () => {
         ws?.close();
-        clearTimeout(reconnectTimer);
       };
     }),
-
     fetchJobId: fromPromise(async ({ input }) => {
       const ctx = input.getCtx();
       const res = await fetch(`${API_URL}/run`, {
@@ -79,7 +55,6 @@ export const searchMachine = setup({
       });
       return res.json();
     }),
-
     startJob: fromPromise(async ({ input }) => {
       const ctx = input.getCtx();
       return fetch(`${API_URL}/start-job`, {
@@ -101,13 +76,12 @@ export const searchMachine = setup({
     data: null,
     jobId: null,
     abortController: null,
-    wsActor: null
+    ws: null
   },
 
-  // ② 永続アクターを spawn（状態に依存しない）
-  entry: assign({
-    wsActor: ({ spawn }) => spawn("connectWS", { id: "ws" })
-  }),
+  invoke: {
+    src: "connectWS"
+  },  
 
   initial: "idle",
 
@@ -157,7 +131,7 @@ export const searchMachine = setup({
             warning: "",
             jobId: null
           }))
-        }
+        }        
       }
     },
 
@@ -177,7 +151,7 @@ export const searchMachine = setup({
             warning: "",
             jobId: null
           }))
-        }
+        }        
       }
     },
 
@@ -193,7 +167,7 @@ export const searchMachine = setup({
         },
         error: {
           target: "idle",
-          actions: assign(() => ({
+          actions: assign(({ event }) => ({
             data: null,
             warning: "",
             jobId: null

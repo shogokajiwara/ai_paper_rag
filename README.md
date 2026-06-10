@@ -198,6 +198,7 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
   https://download.docker.com/linux/ubuntu noble stable" | \
   sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
 sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 sudo usermod -aG docker $USER
 ```
@@ -239,13 +240,13 @@ Terminalを開き、作業ディレクトリで以下のコマンドを実行
 
 ### 1. リポジトリのクローン
 
-```bash
+```zsh
 git clone https://github.com/shogokajiwara/ai_paper_rag.git
 cd ai_paper_rag
 ```
 
 ### 2. RAGデータベースのダウンロード
-```bash
+```zsh
 curl -O https://pub-47d4e6cc65ee492f8a054d787287b0bc.r2.dev/cache.zip
 unzip cache.zip
 ```
@@ -253,7 +254,7 @@ cache.zip は1.74GBあるので、ダウンロードに時間がかかる。
 
 ### 3. Docker Desktopのインストール・起動
 
-```bash
+```zsh
 brew install --cask docker
 open /Applications/Docker.app
 ```
@@ -266,21 +267,21 @@ GUIが起動するので、指示に従い操作
 [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
 [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
 
-```bash
-echo 'export HF_TOKEN="Your Hugging Face Access Token"' >> ~/.bashrc
-echo 'export GEMINI_API_KEY="Your Google AI Studio API key"' >> ~/.bashrc
-source ~/.bashrc
+```zsh
+echo 'export HF_TOKEN="Your Hugging Face Access Token"' >> ~/.zshrc
+echo 'export GEMINI_API_KEY="Your Google AI Studio API key"' >> ~/.zshrc
+source ~/.zshrc
 ```
 
 ### 5. Docker Compose の起動
 
-```bash
+```zsh
 docker compose up -d --build
 ```
 
 ### 6. ログの表示
 
-```bash
+```zsh
 docker compose logs -f
 ```
 
