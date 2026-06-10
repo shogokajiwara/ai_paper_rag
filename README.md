@@ -184,6 +184,7 @@ sudo apt install unzip
 unzip cache.zip
 ```
 cache.zip は1.74GBあるので、ダウンロードに時間がかかる。
+ai_paper_arg/cache/ ディレクトリが作成され、その内部にRAGデータベースが展開される。
 
 ### 3. Docker のインストール
 
@@ -263,7 +264,7 @@ GUIが起動するので、指示に従い操作
 
 ### 4. APIキーの準備
 
-以下からHugging FaceのAccess TokenとGoogle AI StudioのAPI keyを入手して、.bashrcに設定。
+以下からHugging FaceのAccess TokenとGoogle AI StudioのAPI keyを入手して、.zshrcに設定。
 [https://huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)  
 [https://aistudio.google.com/api-keys](https://aistudio.google.com/api-keys)
 
